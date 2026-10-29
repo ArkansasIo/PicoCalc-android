@@ -1,0 +1,32 @@
+name: Android companion CI
+on:
+  push:
+    branches: [master, feature/android-companion]
+    paths: ["AndroidCompanion/**", ".github/workflows/android-companion.yml"]
+  pull_request:
+    paths: ["AndroidCompanion/**", ".github/workflows/android-companion.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "17" }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: "8.9" }
+      - name: Run unit tests
+        working-directory: AndroidCompanion
+        run: gradle testDebugUnitTest
+      - name: Build debug APK and release AAB
+        working-directory: AndroidCompanion
+        run: gradle assembleDebug bundleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: picocalc-android-companion
+          path: |
+            AndroidCompanion/app/build/outputs/apk/debug/*.apk
+            AndroidCompanion/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: error

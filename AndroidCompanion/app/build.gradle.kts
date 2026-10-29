@@ -14,6 +14,7 @@ android {
  }
 }
 dependencies {
+ implementation("androidx.documentfile:documentfile:1.0.1")
  implementation("com.github.mik3y:usb-serial-for-android:3.8.1")
  testImplementation("junit:junit:4.13.2")
 }

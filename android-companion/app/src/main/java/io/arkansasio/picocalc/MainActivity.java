@@ -67,6 +67,7 @@ public class MainActivity extends Activity {
     }
     private void refreshBluetooth(){
         if(bluetoothStatus==null)return;
+        while(content.getChildCount()>5)content.removeViewAt(5);
         if(Build.VERSION.SDK_INT>=31&&!hasBtPermission()){requestPermissions(new String[]{Manifest.permission.BLUETOOTH_CONNECT},REQUEST_BT_CONNECT);bluetoothStatus.setText("Grant Nearby devices permission, then refresh.");return;}
         BluetoothManager manager=(BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
         BluetoothAdapter adapter=manager==null?null:manager.getAdapter();

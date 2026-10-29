@@ -2,9 +2,9 @@ name: Android companion CI
 on:
   push:
     branches: [master, feature/android-companion]
-    paths: ["AndroidCompanion/**", ".github/workflows/android-companion.yml"]
+    paths: ["AndroidCompanion/**", "Code/AndroidCompanion/**", "docs/ANDROID_FIRMWARE_INTEGRATION.md", ".github/workflows/android-companion.yml"]
   pull_request:
-    paths: ["AndroidCompanion/**", ".github/workflows/android-companion.yml"]
+    paths: ["AndroidCompanion/**", "Code/AndroidCompanion/**", "docs/ANDROID_FIRMWARE_INTEGRATION.md", ".github/workflows/android-companion.yml"]
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +15,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: Check MicroPython bridge syntax
+        run: python -m py_compile Code/AndroidCompanion/usb_bridge.py
       - uses: gradle/actions/setup-gradle@v4
         with: { gradle-version: "8.9" }
       - name: Run unit tests

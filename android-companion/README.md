@@ -34,3 +34,13 @@ See ../Code/picocalc_android_bridge/README.md. The MicroPython helper is a manua
 ## Safety and limitations
 
 This is an initial, build-oriented implementation. Firmware flashing, arbitrary remote execution, and automatic file transfer are deliberately not advertised as working features. Device-specific USB protocols must be implemented and tested before relying on data transfer.
+
+
+## Bluetooth support
+
+The app lists already-paired Bluetooth Classic devices and can connect to compatible devices exposing the standard Serial Port Profile (SPP) UUID. The terminal sends and receives UTF-8 text over an RFCOMM socket. Pair the adapter in Android Settings first; Android 12+ requests the Nearby devices / Bluetooth connect permission.
+
+Limitations:
+- This is Bluetooth Classic SPP, not Bluetooth Low Energy (BLE) GATT.
+- PicoCalc hardware does not necessarily include built-in Bluetooth; a compatible Bluetooth serial adapter or a separately configured Pico W / Pico 2 W firmware protocol is required.
+- Hardware compatibility and real-device testing are still required. USB serial and Bluetooth are separate transports.
